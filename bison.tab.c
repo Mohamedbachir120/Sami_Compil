@@ -572,12 +572,12 @@ static const yytype_int8 yytranslate[] =
 static const yytype_uint8 yyrline[] =
 {
        0,    45,    45,    48,    49,    50,    51,    53,    54,    55,
-      56,    60,    62,    69,    84,    86,    87,    87,    92,    93,
-      94,    95,    96,    98,    99,   100,   101,   103,   104,   105,
-     106,   108,   109,   110,   111,   112,   113,   114,   116,   117,
-     118,   120,   121,   122,   123,   124,   125,   127,   128,   129,
-     130,   131,   132,   133,   134,   135,   136,   137,   138,   143,
-     145
+      56,    60,    62,    69,    84,    91,    92,    92,    97,    98,
+      99,   100,   101,   103,   104,   105,   106,   108,   109,   110,
+     111,   113,   114,   115,   116,   117,   118,   119,   121,   122,
+     123,   125,   126,   127,   128,   129,   130,   132,   133,   134,
+     135,   136,   137,   138,   139,   140,   141,   142,   143,   148,
+     150
 };
 #endif
 
@@ -1476,11 +1476,35 @@ yyreduce:
 #line 1477 "bison.tab.c"
     break;
 
+  case 7:
+#line 53 "bison.y"
+                            { strcpy((yyval.t_IdfConst),(yyvsp[0].t_IdfConst));}
+#line 1483 "bison.tab.c"
+    break;
+
+  case 8:
+#line 54 "bison.y"
+                            { strcpy((yyval.t_IdfConst),(yyvsp[0].t_IdfConst));}
+#line 1489 "bison.tab.c"
+    break;
+
+  case 9:
+#line 55 "bison.y"
+                            { strcpy((yyval.t_IdfConst),(yyvsp[0].t_IdfConst));}
+#line 1495 "bison.tab.c"
+    break;
+
+  case 10:
+#line 56 "bison.y"
+                            { strcpy((yyval.t_IdfConst),(yyvsp[0].t_IdfConst));}
+#line 1501 "bison.tab.c"
+    break;
+
   case 11:
 #line 60 "bison.y"
                                    { 
                             remplirTab((yyvsp[-2].t_IdfConst));}
-#line 1484 "bison.tab.c"
+#line 1508 "bison.tab.c"
     break;
 
   case 12:
@@ -1490,7 +1514,7 @@ yyreduce:
                     
                                 
                                     }
-#line 1494 "bison.tab.c"
+#line 1518 "bison.tab.c"
     break;
 
   case 13:
@@ -1508,11 +1532,22 @@ yyreduce:
         }
 
 }
-#line 1512 "bison.tab.c"
+#line 1536 "bison.tab.c"
+    break;
+
+  case 14:
+#line 84 "bison.y"
+                                                                  {
+
+            PListIdfConst* ele = rechercher_idfconst((yyvsp[-3].t_IdfConst));
+            PListIdfConst* ele2 = rechercher_idfconst((yyvsp[-1].t_IdfConst));
+            strcpy(ele->info.subtype,ele2->info.subtype);
+}
+#line 1547 "bison.tab.c"
     break;
 
 
-#line 1516 "bison.tab.c"
+#line 1551 "bison.tab.c"
 
       default: break;
     }
@@ -1744,7 +1779,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 150 "bison.y"
+#line 155 "bison.y"
 
 
 void yyerror(const char* message) {

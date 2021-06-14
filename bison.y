@@ -50,10 +50,10 @@ _TYPESIDF_: INTEGER {strcpy($$,"INTEGER");}|
             CHAR   {strcpy($$,"CHAR");} |
             STRING {strcpy($$,"STRING");};
 
-_VALSCONST_: CONSTINT     |
-             CONSTREELLE    |
-             CONSTCHAR      |
-             CONSTSTRING    ; 
+_VALSCONST_: CONSTINT       { strcpy($$,$1);}|
+             CONSTREELLE    { strcpy($$,$1);}|
+             CONSTCHAR      { strcpy($$,$1);}|
+             CONSTSTRING    { strcpy($$,$1);}; 
 
 
 
@@ -81,7 +81,12 @@ _DECLARATIONIDF_: _TYPESIDF_  _LISTIDF_  POINTVIRG {
 };
 
 
-_DECLARATIONSCONST_:  CONST IDENTIF  EGAL  _VALSCONST_ POINTVIRG  ;
+_DECLARATIONSCONST_:  CONST IDENTIF  EGAL  _VALSCONST_ POINTVIRG  {
+
+            PListIdfConst* ele = rechercher_idfconst($2);
+            PListIdfConst* ele2 = rechercher_idfconst($4);
+            strcpy(ele->info.subtype,ele2->info.subtype);
+};
 
 _DECLARATIONS_: _DECLARATIONIDF_   _DECLARATIONS_ |
                 _DECLARATIONSCONST_ _DECLARATIONS_|

@@ -51,6 +51,7 @@ void afficherTab(){
 
 
 
+
 int Exist(char idf[]) {
 	ListIdfConst t;
 	t=listeIdfConst;

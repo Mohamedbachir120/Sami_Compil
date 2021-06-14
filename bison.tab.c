@@ -573,11 +573,11 @@ static const yytype_uint8 yyrline[] =
 {
        0,    45,    45,    48,    49,    50,    51,    53,    54,    55,
       56,    60,    62,    69,    84,    91,    92,    92,    97,    98,
-      99,   100,   101,   103,   104,   105,   106,   108,   109,   110,
-     111,   113,   114,   115,   116,   117,   118,   119,   121,   122,
-     123,   125,   126,   127,   128,   129,   130,   132,   133,   134,
-     135,   136,   137,   138,   139,   140,   141,   142,   143,   148,
-     150
+      99,   100,   101,   103,   115,   126,   137,   144,   145,   146,
+     147,   149,   150,   151,   152,   153,   159,   160,   162,   169,
+     175,   182,   183,   184,   185,   186,   187,   189,   190,   191,
+     192,   193,   194,   195,   196,   197,   198,   199,   200,   205,
+     207
 };
 #endif
 
@@ -1546,8 +1546,113 @@ yyreduce:
 #line 1547 "bison.tab.c"
     break;
 
+  case 23:
+#line 103 "bison.y"
+                                                                {  
+                                            
+                                            PListIdfConst* p =  rechercher_idfconst((yyvsp[-2].t_IdfConst));
+                                            if(strcmp(p->info.subtype,"")==0){
+                                                yyerror("variable non déclaré");
+                                            }
+                                            if(strcmp(p->info.subtype,"CHAR")==0 || strcmp(p->info.subtype,"STRING")==0){
+                                                yyerror("types incompatibles");
 
-#line 1551 "bison.tab.c"
+                                            
+                                                }
+                                                ;}
+#line 1564 "bison.tab.c"
+    break;
+
+  case 24:
+#line 115 "bison.y"
+                                                                  {  
+                                            PListIdfConst* p =  rechercher_idfconst((yyvsp[-2].t_IdfConst));
+                                            if(strcmp(p->info.subtype,"")==0){
+                                                yyerror("variable non déclaré");
+                                            }
+                                                 if(strcmp(p->info.subtype,"CHAR")==0 || strcmp(p->info.subtype,"STRING")==0){
+                                                yyerror("types incompatibles");
+
+                                            
+                                                }
+                                                ;}
+#line 1580 "bison.tab.c"
+    break;
+
+  case 25:
+#line 126 "bison.y"
+                                                                 {  
+                                            PListIdfConst* p =  rechercher_idfconst((yyvsp[-2].t_IdfConst));
+                                            if(strcmp(p->info.subtype,"")==0){
+                                                yyerror("variable non déclaré");
+                                            }
+                                                 if(strcmp(p->info.subtype,"CHAR")==0 || strcmp(p->info.subtype,"STRING")==0){
+                                                yyerror("types incompatibles");
+
+                                            
+                                                }
+                                                ;}
+#line 1596 "bison.tab.c"
+    break;
+
+  case 26:
+#line 137 "bison.y"
+                                                                {  
+                                            PListIdfConst* p =  rechercher_idfconst((yyvsp[-2].t_IdfConst));
+                                            if(strcmp(p->info.subtype,"")==0){
+                                                yyerror("variable non déclaré");
+                                            }
+                                                ;}
+#line 1607 "bison.tab.c"
+    break;
+
+  case 35:
+#line 153 "bison.y"
+                                  {  
+                                            PListIdfConst* p =  rechercher_idfconst((yyvsp[0].t_IdfConst));
+                                            if(strcmp(p->info.subtype,"")==0){
+                                                yyerror("variable non déclaré");
+                                            }
+                                                ;}
+#line 1618 "bison.tab.c"
+    break;
+
+  case 38:
+#line 162 "bison.y"
+                                                                  {  
+                                            PListIdfConst* p =  rechercher_idfconst((yyvsp[-3].t_IdfConst));
+                                            if(strcmp(p->info.subtype,"")==0){
+                                                yyerror("variable non déclaré");
+                                            }
+
+                                                ;}
+#line 1630 "bison.tab.c"
+    break;
+
+  case 39:
+#line 169 "bison.y"
+                                                    {  
+                                            PListIdfConst* p =  rechercher_idfconst((yyvsp[-3].t_IdfConst));
+                                            if(strcmp(p->info.subtype,"")==0){
+                                                yyerror("variable non déclaré");
+                                            }
+                                                ;}
+#line 1641 "bison.tab.c"
+    break;
+
+  case 40:
+#line 175 "bison.y"
+                                                    {  
+                                            PListIdfConst* p =  rechercher_idfconst((yyvsp[-3].t_IdfConst));
+                                            if(strcmp(p->info.subtype,"")==0){
+                                                yyerror("variable non déclaré");
+                                            }
+                                                ;}
+#line 1652 "bison.tab.c"
+    break;
+
+
+#line 1656 "bison.tab.c"
 
       default: break;
     }
@@ -1779,7 +1884,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 155 "bison.y"
+#line 212 "bison.y"
 
 
 void yyerror(const char* message) {
@@ -1792,8 +1897,15 @@ void yyerror(const char* message) {
         numero_colonne
     );
     } else{
-        fprintf(stdout,"semantic error ligne : %i , colonne : %i \n",numero_ligne,numero_colonne);
-    }
+      
+      fprintf(
+        stderr, 
+        "[%s] (ligne = %i, colonne = %i)\n",
+        message, 
+        numero_ligne, 
+        numero_colonne
+    );
+       }
 	
     
 }

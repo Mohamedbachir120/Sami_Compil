@@ -100,10 +100,46 @@ _EXPRESSIONARITHMETIQUE_: PARENOUV _EXPRESSIONARITHMETIQUE_  PARENFER|
                           PARENOUV _EXPRESSIONARITHMETIQUE_  PARENFER DIV _EXPRESSIONARITHMETIQUE_ |
                           PARENOUV _EXPRESSIONARITHMETIQUE_  PARENFER MUL _EXPRESSIONARITHMETIQUE_ |
 
-                          IDENTIF PLUS _EXPRESSIONARITHMETIQUE_  |
-                          IDENTIF MOINS _EXPRESSIONARITHMETIQUE_   |
-                          IDENTIF DIV _EXPRESSIONARITHMETIQUE_   |
-                          IDENTIF MUL _EXPRESSIONARITHMETIQUE_   |
+                          IDENTIF PLUS _EXPRESSIONARITHMETIQUE_ {  
+                                            
+                                            PListIdfConst* p =  rechercher_idfconst($1);
+                                            if(strcmp(p->info.subtype,"")==0){
+                                                yyerror("variable non déclaré");
+                                            }
+                                            if(strcmp(p->info.subtype,"CHAR")==0 || strcmp(p->info.subtype,"STRING")==0){
+                                                yyerror("types incompatibles");
+
+                                            
+                                                }
+                                                ;} |
+                          IDENTIF MOINS _EXPRESSIONARITHMETIQUE_  {  
+                                            PListIdfConst* p =  rechercher_idfconst($1);
+                                            if(strcmp(p->info.subtype,"")==0){
+                                                yyerror("variable non déclaré");
+                                            }
+                                                 if(strcmp(p->info.subtype,"CHAR")==0 || strcmp(p->info.subtype,"STRING")==0){
+                                                yyerror("types incompatibles");
+
+                                            
+                                                }
+                                                ;}  |
+                          IDENTIF DIV _EXPRESSIONARITHMETIQUE_   {  
+                                            PListIdfConst* p =  rechercher_idfconst($1);
+                                            if(strcmp(p->info.subtype,"")==0){
+                                                yyerror("variable non déclaré");
+                                            }
+                                                 if(strcmp(p->info.subtype,"CHAR")==0 || strcmp(p->info.subtype,"STRING")==0){
+                                                yyerror("types incompatibles");
+
+                                            
+                                                }
+                                                ;}|
+                          IDENTIF MUL _EXPRESSIONARITHMETIQUE_  {  
+                                            PListIdfConst* p =  rechercher_idfconst($1);
+                                            if(strcmp(p->info.subtype,"")==0){
+                                                yyerror("variable non déclaré");
+                                            }
+                                                ;} |
 
                           CONSTINT PLUS  _EXPRESSIONARITHMETIQUE_  |
                           CONSTINT MOINS  _EXPRESSIONARITHMETIQUE_  |
@@ -114,13 +150,34 @@ _EXPRESSIONARITHMETIQUE_: PARENOUV _EXPRESSIONARITHMETIQUE_  PARENFER|
                           CONSTREELLE MOINS  _EXPRESSIONARITHMETIQUE_ |
                           CONSTREELLE DIV  _EXPRESSIONARITHMETIQUE_ |
                           CONSTREELLE MUL  _EXPRESSIONARITHMETIQUE_ |
-                          IDENTIF |
+                          IDENTIF {  
+                                            PListIdfConst* p =  rechercher_idfconst($1);
+                                            if(strcmp(p->info.subtype,"")==0){
+                                                yyerror("variable non déclaré");
+                                            }
+                                                ;}|
                           CONSTINT |
                           CONSTREELLE ;
 
-_AFFECTATION_: IDENTIF AFFECT _EXPRESSIONARITHMETIQUE_  POINTVIRG |
-               IDENTIF AFFECT CONSTSTRING POINTVIRG |
-                IDENTIF AFFECT CONSTCHAR POINTVIRG  ;
+_AFFECTATION_: IDENTIF AFFECT _EXPRESSIONARITHMETIQUE_  POINTVIRG {  
+                                            PListIdfConst* p =  rechercher_idfconst($1);
+                                            if(strcmp(p->info.subtype,"")==0){
+                                                yyerror("variable non déclaré");
+                                            }
+
+                                                ;}|
+               IDENTIF AFFECT CONSTSTRING POINTVIRG {  
+                                            PListIdfConst* p =  rechercher_idfconst($1);
+                                            if(strcmp(p->info.subtype,"")==0){
+                                                yyerror("variable non déclaré");
+                                            }
+                                                ;}|
+                IDENTIF AFFECT CONSTCHAR POINTVIRG  {  
+                                            PListIdfConst* p =  rechercher_idfconst($1);
+                                            if(strcmp(p->info.subtype,"")==0){
+                                                yyerror("variable non déclaré");
+                                            }
+                                                ;};
 
 _INSTRUCTIONS_: _AFFECTATION_  _INSTRUCTIONS_ |
                 _CONTROLE_ _INSTRUCTIONS_ |
@@ -164,8 +221,15 @@ void yyerror(const char* message) {
         numero_colonne
     );
     } else{
-        fprintf(stdout,"semantic error ligne : %i , colonne : %i \n",numero_ligne,numero_colonne);
-    }
+      
+      fprintf(
+        stderr, 
+        "[%s] (ligne = %i, colonne = %i)\n",
+        message, 
+        numero_ligne, 
+        numero_colonne
+    );
+       }
 	
     
 }

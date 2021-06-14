@@ -3,5 +3,5 @@ CONST Rs="test";
 CONST Tm=3;
 INTEGER Ti,Er;
 START
-Ti := "test";
+Ti := Rs - 4;
 END.

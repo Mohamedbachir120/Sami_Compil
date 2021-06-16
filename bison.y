@@ -97,7 +97,7 @@ _DECLARATIONS_: _DECLARATIONIDF_   _DECLARATIONS_ |
 _EXPRESSIONARITHMETIQUE_: PARENOUV _EXPRESSIONARITHMETIQUE_  PARENFER|
                           PARENOUV _EXPRESSIONARITHMETIQUE_  PARENFER PLUS _EXPRESSIONARITHMETIQUE_ |
                           PARENOUV _EXPRESSIONARITHMETIQUE_  PARENFER MOINS _EXPRESSIONARITHMETIQUE_ |
-                          PARENOUV _EXPRESSIONARITHMETIQUE_  PARENFER DIV _EXPRESSIONARITHMETIQUE_ |
+                          PARENOUV _EXPRESSIONARITHMETIQUE_  PARENFER DIV _EXPRESSIONARITHMETIQUE_ {if(strcmp($5,"0")==0 || strcmp($5,"0.0")==0){yyerror("division par zero");}} |
                           PARENOUV _EXPRESSIONARITHMETIQUE_  PARENFER MUL _EXPRESSIONARITHMETIQUE_ |
 
                           IDENTIF PLUS _EXPRESSIONARITHMETIQUE_ {  
@@ -133,6 +133,7 @@ _EXPRESSIONARITHMETIQUE_: PARENOUV _EXPRESSIONARITHMETIQUE_  PARENFER|
 
                                             
                                                 }
+                                                if(strcmp($3,"0")==0 || strcmp($3,"0.0")==0){yyerror("division par zero");}
                                                 ;}|
                           IDENTIF MUL _EXPRESSIONARITHMETIQUE_  {  
                                             PListIdfConst* p =  rechercher_idfconst($1);
@@ -143,12 +144,12 @@ _EXPRESSIONARITHMETIQUE_: PARENOUV _EXPRESSIONARITHMETIQUE_  PARENFER|
 
                           CONSTINT PLUS  _EXPRESSIONARITHMETIQUE_  |
                           CONSTINT MOINS  _EXPRESSIONARITHMETIQUE_  |
-                          CONSTINT DIV  _EXPRESSIONARITHMETIQUE_  |
+                          CONSTINT DIV  _EXPRESSIONARITHMETIQUE_ {if(strcmp($3,"0")==0 || strcmp($3,"0.0")==0){yyerror("division par zero");}} |
                           CONSTINT MUL  _EXPRESSIONARITHMETIQUE_  |
 
                           CONSTREELLE PLUS  _EXPRESSIONARITHMETIQUE_ |
                           CONSTREELLE MOINS  _EXPRESSIONARITHMETIQUE_ |
-                          CONSTREELLE DIV  _EXPRESSIONARITHMETIQUE_ |
+                          CONSTREELLE DIV  _EXPRESSIONARITHMETIQUE_ {if(strcmp($3,"0")==0 || strcmp($3,"0.0")==0){yyerror("division par zero");}} |
                           CONSTREELLE MUL  _EXPRESSIONARITHMETIQUE_ |
                           IDENTIF {  
                                             PListIdfConst* p =  rechercher_idfconst($1);
@@ -156,8 +157,8 @@ _EXPRESSIONARITHMETIQUE_: PARENOUV _EXPRESSIONARITHMETIQUE_  PARENFER|
                                                 yyerror("variable non déclaré");
                                             }
                                                 ;}|
-                          CONSTINT |
-                          CONSTREELLE ;
+                          CONSTINT {strcpy($$,$1);}|
+                          CONSTREELLE {strcpy($$,$1);} ;
 
 _AFFECTATION_: IDENTIF AFFECT _EXPRESSIONARITHMETIQUE_  POINTVIRG {  
                                             PListIdfConst* p =  rechercher_idfconst($1);

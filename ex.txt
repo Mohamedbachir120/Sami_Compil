@@ -1,7 +1,10 @@
 CODE ALGORITHME
 CONST Rs="test";
-CONST Tm=3;
-INTEGER Ti,Er;
+INTEGER T;
+INTEGER I,B,J,A,C,D,H;
 START
-Ti := Rs - 4;
+B:=6;
+C:=0;
+
+A:=PROD(2+B,C*3.4,H/D);
 END.

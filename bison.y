@@ -28,13 +28,13 @@
     }
 
 %token EQ NE LT LE GT GE
-%token AFFECT PLUS MOINS MULT DIV EGAL PROD
-%token PARENOUV PARENFER POINT VIRG POINTVIRG ACCOUV ACCFERM
-%token CODE START END CONST WHILE EXECUTE WHEN DO OTHERWISE 
+%token AFFECT PLUS MOINS MULT DIV EGAL 
+%token PRTOUV PRTFERM POINT VIRG POINTVIRG ACOLOUV ACOLFRM
+%token CODE START END CONST WHILE EXECUTE WHEN DO OTHERWISE PROD
 
-%token <t_IdfConst> IDENTIF CONSTCHAR CONSTSTRING CONSTINT CONSTREELLE 
-%token <t_IdfConst> INTEGER REAL CHAR STRING  
-%type <t_IdfConst>_DECLARATIONSCONST_  _VALSCONST_ _TYPESIDF_ _LISTIDF_ _DECLARATIONIDF_ _DECLARATIONS_  _EXPRESSIONARITHMETIQUE_ 
+%token <t_IdfConst> IDENTIF CSTCHAR CSTSTR CSTINT CSTREEL 
+%token <t_IdfConst> INTEGER REAL CHAR STRING 
+%type <t_IdfConst>_CSTDECLARE_  _CSTVAL_ _IDFTYPE_ _IDFLIST_ _IDFDECLARE_ _DECLARATIONS_  _EXPRESSIONARTH_ _PARAMPROD_
 %left ADD SOUS 
 %left MUL DIV
 
@@ -45,19 +45,19 @@
 _CODESOURCE_: CODE IDENTIF _DECLARATIONS_ START _INSTRUCTIONS_ END POINT; 
 
 
-_TYPESIDF_: INTEGER {strcpy($$,"INTEGER");}|
+_IDFTYPE_: INTEGER {strcpy($$,"INTEGER");}|
             REAL  {strcpy($$,"REAL");} |
             CHAR   {strcpy($$,"CHAR");} |
             STRING {strcpy($$,"STRING");};
 
-_VALSCONST_: CONSTINT       { strcpy($$,$1);}|
-             CONSTREELLE    { strcpy($$,$1);}|
-             CONSTCHAR      { strcpy($$,$1);}|
-             CONSTSTRING    { strcpy($$,$1);}; 
+_CSTVAL_: CSTINT       { strcpy($$,$1);}|
+             CSTREEL    { strcpy($$,$1);}|
+             CSTCHAR      { strcpy($$,$1);}|
+             CSTSTR    { strcpy($$,$1);}; 
 
 
 
-_LISTIDF_: IDENTIF VIRG _LISTIDF_  { 
+_IDFLIST_: IDENTIF VIRG _IDFLIST_  { 
                             remplirTab($1);}  |
             IDENTIF                 { 
                             remplirTab($1);
@@ -66,7 +66,7 @@ _LISTIDF_: IDENTIF VIRG _LISTIDF_  {
                                     } ; 
 
 
-_DECLARATIONIDF_: _TYPESIDF_  _LISTIDF_  POINTVIRG {    
+_IDFDECLARE_: _IDFTYPE_  _IDFLIST_  POINTVIRG {    
         Declar d;
         while(tableVide()==0){
 
@@ -81,26 +81,26 @@ _DECLARATIONIDF_: _TYPESIDF_  _LISTIDF_  POINTVIRG {
 };
 
 
-_DECLARATIONSCONST_:  CONST IDENTIF  EGAL  _VALSCONST_ POINTVIRG  {
+_CSTDECLARE_:  CONST IDENTIF  EGAL  _CSTVAL_ POINTVIRG  {
 
             PListIdfConst* ele = rechercher_idfconst($2);
             PListIdfConst* ele2 = rechercher_idfconst($4);
             strcpy(ele->info.subtype,ele2->info.subtype);
 };
 
-_DECLARATIONS_: _DECLARATIONIDF_   _DECLARATIONS_ |
-                _DECLARATIONSCONST_ _DECLARATIONS_|
+_DECLARATIONS_: _IDFDECLARE_   _DECLARATIONS_ |
+                _CSTDECLARE_ _DECLARATIONS_|
                   ;       
                               
 
 
-_EXPRESSIONARITHMETIQUE_: PARENOUV _EXPRESSIONARITHMETIQUE_  PARENFER|
-                          PARENOUV _EXPRESSIONARITHMETIQUE_  PARENFER PLUS _EXPRESSIONARITHMETIQUE_ |
-                          PARENOUV _EXPRESSIONARITHMETIQUE_  PARENFER MOINS _EXPRESSIONARITHMETIQUE_ |
-                          PARENOUV _EXPRESSIONARITHMETIQUE_  PARENFER DIV _EXPRESSIONARITHMETIQUE_ {if(strcmp($5,"0")==0 || strcmp($5,"0.0")==0){yyerror("division par zero");}} |
-                          PARENOUV _EXPRESSIONARITHMETIQUE_  PARENFER MUL _EXPRESSIONARITHMETIQUE_ |
+_EXPRESSIONARTH_: PRTOUV _EXPRESSIONARTH_  PRTFERM|
+                          PRTOUV _EXPRESSIONARTH_  PRTFERM PLUS _EXPRESSIONARTH_ |
+                          PRTOUV _EXPRESSIONARTH_  PRTFERM MOINS _EXPRESSIONARTH_ |
+                          PRTOUV _EXPRESSIONARTH_  PRTFERM DIV _EXPRESSIONARTH_ {if(strcmp($5,"0")==0 || strcmp($5,"0.0")==0){yyerror("division par zero");}} |
+                          PRTOUV _EXPRESSIONARTH_  PRTFERM MUL _EXPRESSIONARTH_ |
 
-                          IDENTIF PLUS _EXPRESSIONARITHMETIQUE_ {  
+                          IDENTIF PLUS _EXPRESSIONARTH_ {  
                                             
                                             PListIdfConst* p =  rechercher_idfconst($1);
                                             if(strcmp(p->info.subtype,"")==0){
@@ -112,7 +112,7 @@ _EXPRESSIONARITHMETIQUE_: PARENOUV _EXPRESSIONARITHMETIQUE_  PARENFER|
                                             
                                                 }
                                                 ;} |
-                          IDENTIF MOINS _EXPRESSIONARITHMETIQUE_  {  
+                          IDENTIF MOINS _EXPRESSIONARTH_  {  
                                             PListIdfConst* p =  rechercher_idfconst($1);
                                             if(strcmp(p->info.subtype,"")==0){
                                                 yyerror("variable non déclaré");
@@ -123,7 +123,7 @@ _EXPRESSIONARITHMETIQUE_: PARENOUV _EXPRESSIONARITHMETIQUE_  PARENFER|
                                             
                                                 }
                                                 ;}  |
-                          IDENTIF DIV _EXPRESSIONARITHMETIQUE_   {  
+                          IDENTIF DIV _EXPRESSIONARTH_   {  
                                             PListIdfConst* p =  rechercher_idfconst($1);
                                             if(strcmp(p->info.subtype,"")==0){
                                                 yyerror("variable non déclaré");
@@ -135,50 +135,99 @@ _EXPRESSIONARITHMETIQUE_: PARENOUV _EXPRESSIONARITHMETIQUE_  PARENFER|
                                                 }
                                                 if(strcmp($3,"0")==0 || strcmp($3,"0.0")==0){yyerror("division par zero");}
                                                 ;}|
-                          IDENTIF MUL _EXPRESSIONARITHMETIQUE_  {  
+                          IDENTIF MUL _EXPRESSIONARTH_  {  
                                             PListIdfConst* p =  rechercher_idfconst($1);
                                             if(strcmp(p->info.subtype,"")==0){
                                                 yyerror("variable non déclaré");
                                             }
                                                 ;} |
 
-                          CONSTINT PLUS  _EXPRESSIONARITHMETIQUE_  |
-                          CONSTINT MOINS  _EXPRESSIONARITHMETIQUE_  |
-                          CONSTINT DIV  _EXPRESSIONARITHMETIQUE_ {if(strcmp($3,"0")==0 || strcmp($3,"0.0")==0){yyerror("division par zero");}} |
-                          CONSTINT MUL  _EXPRESSIONARITHMETIQUE_  |
+                          CSTINT PLUS  _EXPRESSIONARTH_  |
+                          CSTINT MOINS  _EXPRESSIONARTH_  |
+                          CSTINT DIV  _EXPRESSIONARTH_ {if(strcmp($3,"0")==0 || strcmp($3,"0.0")==0){yyerror("division par zero");}} |
+                          CSTINT MUL  _EXPRESSIONARTH_  |
 
-                          CONSTREELLE PLUS  _EXPRESSIONARITHMETIQUE_ |
-                          CONSTREELLE MOINS  _EXPRESSIONARITHMETIQUE_ |
-                          CONSTREELLE DIV  _EXPRESSIONARITHMETIQUE_ {if(strcmp($3,"0")==0 || strcmp($3,"0.0")==0){yyerror("division par zero");}} |
-                          CONSTREELLE MUL  _EXPRESSIONARITHMETIQUE_ |
+                          CSTREEL PLUS  _EXPRESSIONARTH_ |
+                          CSTREEL MOINS  _EXPRESSIONARTH_ |
+                          CSTREEL DIV  _EXPRESSIONARTH_ {if(strcmp($3,"0")==0 || strcmp($3,"0.0")==0){yyerror("division par zero");}} |
+                          CSTREEL MUL  _EXPRESSIONARTH_ |
                           IDENTIF {  
                                             PListIdfConst* p =  rechercher_idfconst($1);
                                             if(strcmp(p->info.subtype,"")==0){
                                                 yyerror("variable non déclaré");
                                             }
                                                 ;}|
-                          CONSTINT {strcpy($$,$1);}|
-                          CONSTREELLE {strcpy($$,$1);} ;
+                          CSTINT {strcpy($$,$1);}|
+                          CSTREEL {strcpy($$,$1);} ;
 
-_AFFECTATION_: IDENTIF AFFECT _EXPRESSIONARITHMETIQUE_  POINTVIRG {  
+_PARAMPROD_: _PARAMPROD_ VIRG _PARAMPROD_ | 
+            IDENTIF PLUS _PARAMPROD_ {  
+                                            
+                                            PListIdfConst* p =  rechercher_idfconst($1);
+                                            if(strcmp(p->info.subtype,"")==0){
+                                                yyerror("variable non déclaré");
+                                            }
+                                                ;} |
+            IDENTIF MOINS _PARAMPROD_ {  
+                                            
+                                            PListIdfConst* p =  rechercher_idfconst($1);
+                                            if(strcmp(p->info.subtype,"")==0){
+                                                yyerror("variable non déclaré");
+                                            }
+                                                ;}|
+            IDENTIF MULT _PARAMPROD_ {  
+                                            
+                                            PListIdfConst* p =  rechercher_idfconst($1);
+                                            if(strcmp(p->info.subtype,"")==0){
+                                                yyerror("variable non déclaré");
+                                            }
+                                                ;} |
+            IDENTIF DIV _PARAMPROD_ {  
+                                            
+                                            PListIdfConst* p =  rechercher_idfconst($1);
+                                            if(strcmp(p->info.subtype,"")==0){
+                                                yyerror("variable non déclaré");
+                                            }
+                                            if(strcmp($3,"0")==0 || strcmp($3,"0.0")==0){yyerror("division par zero");}
+                                                ;}|
+            CSTINT PLUS _PARAMPROD_ |
+            CSTINT MOINS _PARAMPROD_ |
+            CSTINT DIV _PARAMPROD_  {if(strcmp($3,"0")==0 || strcmp($3,"0.0")==0){yyerror("division par zero");}}|
+            CSTINT MULT _PARAMPROD_ |
+            CSTREEL MULT _PARAMPROD_ |
+            CSTREEL DIV _PARAMPROD_ {if(strcmp($3,"0")==0 || strcmp($3,"0.0")==0){yyerror("division par zero");}} |
+            CSTREEL PLUS _PARAMPROD_ |
+            CSTREEL MOINS _PARAMPROD_ |
+            IDENTIF {  
+                                            
+                                            PListIdfConst* p =  rechercher_idfconst($1);
+                                            if(strcmp(p->info.subtype,"")==0){
+                                                yyerror("variable non déclaré");
+                                            };} |
+            CSTINT |
+            CSTREEL;
+
+                         
+_AFFECTATION_: IDENTIF AFFECT _EXPRESSIONARTH_  POINTVIRG {  
                                             PListIdfConst* p =  rechercher_idfconst($1);
                                             if(strcmp(p->info.subtype,"")==0){
                                                 yyerror("variable non déclaré");
                                             }
 
                                                 ;}|
-               IDENTIF AFFECT CONSTSTRING POINTVIRG {  
+               IDENTIF AFFECT CSTSTR POINTVIRG {  
                                             PListIdfConst* p =  rechercher_idfconst($1);
                                             if(strcmp(p->info.subtype,"")==0){
                                                 yyerror("variable non déclaré");
                                             }
                                                 ;}|
-                IDENTIF AFFECT CONSTCHAR POINTVIRG  {  
+                IDENTIF AFFECT CSTCHAR POINTVIRG  {  
                                             PListIdfConst* p =  rechercher_idfconst($1);
                                             if(strcmp(p->info.subtype,"")==0){
                                                 yyerror("variable non déclaré");
                                             }
-                                                ;};
+                                                ;} |
+                IDENTIF AFFECT PROD PRTOUV _PARAMPROD_ PRTFERM POINTVIRG ;
 
 _INSTRUCTIONS_: _AFFECTATION_  _INSTRUCTIONS_ |
                 _CONTROLE_ _INSTRUCTIONS_ |
@@ -187,25 +236,25 @@ _INSTRUCTIONS_: _AFFECTATION_  _INSTRUCTIONS_ |
                 _CONTROLE_ |
                 _AFFECTATION_   ;  
 
-_CONDITIONS_: PARENOUV  _EXPRESSIONARITHMETIQUE_ EQ _EXPRESSIONARITHMETIQUE_  PARENFER |
-              PARENOUV  _EXPRESSIONARITHMETIQUE_ LE _EXPRESSIONARITHMETIQUE_  PARENFER |
-              PARENOUV  _EXPRESSIONARITHMETIQUE_ LT _EXPRESSIONARITHMETIQUE_  PARENFER |
-              PARENOUV  _EXPRESSIONARITHMETIQUE_ GT _EXPRESSIONARITHMETIQUE_  PARENFER |
-              PARENOUV  _EXPRESSIONARITHMETIQUE_ GE _EXPRESSIONARITHMETIQUE_  PARENFER |
-              PARENOUV  _EXPRESSIONARITHMETIQUE_ NE _EXPRESSIONARITHMETIQUE_  PARENFER |
-              _EXPRESSIONARITHMETIQUE_ EQ _EXPRESSIONARITHMETIQUE_ |
-              _EXPRESSIONARITHMETIQUE_ LE _EXPRESSIONARITHMETIQUE_ |
-              _EXPRESSIONARITHMETIQUE_ LT _EXPRESSIONARITHMETIQUE_ |
-              _EXPRESSIONARITHMETIQUE_ GT _EXPRESSIONARITHMETIQUE_ |
-              _EXPRESSIONARITHMETIQUE_ GE _EXPRESSIONARITHMETIQUE_ |
-              _EXPRESSIONARITHMETIQUE_ NE _EXPRESSIONARITHMETIQUE_ ;
+_CONDITIONS_: PRTOUV  _EXPRESSIONARTH_ EQ _EXPRESSIONARTH_  PRTFERM |
+              PRTOUV  _EXPRESSIONARTH_ LE _EXPRESSIONARTH_  PRTFERM |
+              PRTOUV  _EXPRESSIONARTH_ LT _EXPRESSIONARTH_  PRTFERM |
+              PRTOUV  _EXPRESSIONARTH_ GT _EXPRESSIONARTH_  PRTFERM |
+              PRTOUV  _EXPRESSIONARTH_ GE _EXPRESSIONARTH_  PRTFERM |
+              PRTOUV  _EXPRESSIONARTH_ NE _EXPRESSIONARTH_  PRTFERM |
+              _EXPRESSIONARTH_ EQ _EXPRESSIONARTH_ |
+              _EXPRESSIONARTH_ LE _EXPRESSIONARTH_ |
+              _EXPRESSIONARTH_ LT _EXPRESSIONARTH_ |
+              _EXPRESSIONARTH_ GT _EXPRESSIONARTH_ |
+              _EXPRESSIONARTH_ GE _EXPRESSIONARTH_ |
+              _EXPRESSIONARTH_ NE _EXPRESSIONARTH_ ;
 
 
           
 
 _CONTROLE_: WHEN _CONDITIONS_  DO _INSTRUCTIONS_ OTHERWISE _INSTRUCTIONS_  ;                            
 
-_BOUCLE_: WHILE _CONDITIONS_ EXECUTE  ACCOUV _INSTRUCTIONS_ ACCFERM POINTVIRG ;                
+_BOUCLE_: WHILE _CONDITIONS_ EXECUTE  ACOLOUV _INSTRUCTIONS_ ACOLFRM POINTVIRG ;                
 
 
 

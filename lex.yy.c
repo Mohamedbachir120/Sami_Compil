@@ -1070,36 +1070,36 @@ case 27:
 YY_RULE_SETUP
 #line 159 "lexical.l"
 { 
-    Inserer_clesep("PARENOUV","SEPARATEUR"); 
+    Inserer_clesep("PRTOUV","SEPARATEUR"); 
     numero_colonne+=yyleng;
-    return PARENOUV;
+    return PRTOUV;
     }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
 #line 164 "lexical.l"
 { 
-    Inserer_clesep("PARENFER","SEPARATEUR"); 
+    Inserer_clesep("PRTFERM","SEPARATEUR"); 
     numero_colonne+=yyleng;
-    return PARENFER;
+    return PRTFERM;
     }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
 #line 169 "lexical.l"
 {
-    Inserer_clesep("ACCOUV","SEPARATEUR"); 
+    Inserer_clesep("ACOLOUV","SEPARATEUR"); 
         numero_colonne += yyleng; 
-        return ACCOUV; 
+        return ACOLOUV; 
     }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
 #line 174 "lexical.l"
 {
-    Inserer_clesep("ACCOUV","SEPARATEUR"); 
+    Inserer_clesep("ACOLFRM","SEPARATEUR"); 
         numero_colonne += yyleng; 
-        return ACCFERM; 
+        return ACOLFRM; 
     }
 	YY_BREAK
 case 31:
@@ -1111,7 +1111,7 @@ YY_RULE_SETUP
     char message[20];
     sprintf(message,"%s",yytext);
     strcpy(yylval.t_IdfConst,message);
-    return CONSTINT;}
+    return CSTINT;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
@@ -1122,7 +1122,7 @@ YY_RULE_SETUP
     char message[20];
     sprintf(message,"%s",yytext);
     strcpy(yylval.t_IdfConst,message);
-    return CONSTREELLE;}
+    return CSTREEL;}
 	YY_BREAK
 case 33:
 /* rule 33 can match eol */
@@ -1134,7 +1134,7 @@ YY_RULE_SETUP
     char message[20];
     sprintf(message,"%s",yytext);
     strcpy(yylval.t_IdfConst,message);
-    return CONSTSTRING;}
+    return CSTSTR;}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP

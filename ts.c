@@ -68,14 +68,14 @@ void afficher(){
         ListIdfConst l=listeIdfConst;   
         // affichage des tables des IDF et constantes 
 
-                printf("/***************Table des symboles IDF et Constantes *************/\n");
+                printf("\n \n \t\t\t/***************Table des symboles IDF et Constantes *************/\n\n");
 
-                puts("Nom d'entité              | type (Idf,Const)  |       sous-type (Entier - Réel - chaine)      | Valeur      "); 
+                puts("Nom d'entité              | type (Idf,Const)          |  sous-type (Entier - Réel - chaine)    | Valeur      "); 
                 puts("------------------------------------------------------------------------------------------------------------");   
 
                 while(l!=NULL ) {
 
-                            fprintf(stdout,"%-15s           |%-15s            |%-15s          |%-15s\n",l->info.name,l->info.type,l->info.subtype,l->info.val);     
+                            fprintf(stdout,"%-15s           |%-15s            |%-30s          |%-15s\n",l->info.name,l->info.type,l->info.subtype,l->info.val);     
 
                  
                
@@ -88,14 +88,14 @@ void afficher(){
 
         // affichage des tables des mots clés et séparateurs
 
-                printf("\n/***************Table des symboles mots clés *************/\n\n");
+                printf("\n \t\t\t/***************Table des symboles mots clés *************/\n\n");
 
-                puts("    |Nom d'entité                    |type                \n");    
-                puts("    |------------                    |----\n");
+                puts("Nom d'entité                    |type                ");    
+                puts("-------------------------------------");
 
                 while(l2!=NULL ) {
 
-                fprintf(stdout,"    |%-15s                 |%-15s            \n",l2->info.name,l2->info.type);     
+                fprintf(stdout,"%-15s                 |%-15s            \n",l2->info.name,l2->info.type);     
                 l2=l2->suiv;                
                 }
 }

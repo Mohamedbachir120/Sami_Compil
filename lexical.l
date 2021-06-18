@@ -14,10 +14,10 @@ extern YYSTYPE yylval;
 %}
 
 IDENTIF [A-Z][A-Za-z0-9_]*
-CONSTINT (0+|[\+-]?[1-9][0-9]*)
-CONSTCHAR '([^'\\]|\\[0bntuvf'\\])'
-CONSTREELLE [\+-]?([0-9]+\.[0-9]*|[0-9]*\.[0-9]+)
-CONSTSTRING  \"[^\"]*\"
+CSTINT (0+|[\+-]?[1-9][0-9]*)
+CSTCHAR '([^'\\]|\\[0bntuvf'\\])'
+CSTREEL [\+-]?([0-9]+\.[0-9]*|[0-9]*\.[0-9]+)
+CSTSTR  \"[^\"]*\"
 COMMENTAIRE \$([^\$\\]|\\.)*\$
 
 
@@ -157,51 +157,51 @@ COMMENTAIRE \$([^\$\\]|\\.)*\$
 
 
 [(] { 
-    Inserer_clesep("PARENOUV","SEPARATEUR"); 
+    Inserer_clesep("PRTOUV","SEPARATEUR"); 
     numero_colonne+=yyleng;
-    return PARENOUV;
+    return PRTOUV;
     }
 [)] { 
-    Inserer_clesep("PARENFER","SEPARATEUR"); 
+    Inserer_clesep("PRTFERM","SEPARATEUR"); 
     numero_colonne+=yyleng;
-    return PARENFER;
+    return PRTFERM;
     }
 "{" {
-    Inserer_clesep("ACCOUV","SEPARATEUR"); 
+    Inserer_clesep("ACOLOUV","SEPARATEUR"); 
         numero_colonne += yyleng; 
-        return ACCOUV; 
+        return ACOLOUV; 
     }
 "}"	{
-    Inserer_clesep("ACCOUV","SEPARATEUR"); 
+    Inserer_clesep("ACOLFRM","SEPARATEUR"); 
         numero_colonne += yyleng; 
-        return ACCFERM; 
+        return ACOLFRM; 
     }
 
 
 
 
 
-{CONSTINT} { 
+{CSTINT} { 
     Inserer_idf(yytext,"CONSTANTE   ",yytext,"INTEGER");
     numero_colonne+=yyleng;
     char message[20];
     sprintf(message,"%s",yytext);
     strcpy(yylval.t_IdfConst,message);
-    return CONSTINT;}
-{CONSTREELLE} { 
+    return CSTINT;}
+{CSTREEL} { 
     Inserer_idf(yytext,"CONSTANTE   ",yytext,"REAL");
     numero_colonne+=yyleng;
     char message[20];
     sprintf(message,"%s",yytext);
     strcpy(yylval.t_IdfConst,message);
-    return CONSTREELLE;}
-{CONSTSTRING} { 
+    return CSTREEL;}
+{CSTSTR} { 
     Inserer_idf(yytext,"CONSTANTE   ",yytext,"STRING");
     numero_colonne+=yyleng;
     char message[20];
     sprintf(message,"%s",yytext);
     strcpy(yylval.t_IdfConst,message);
-    return CONSTSTRING;}
+    return CSTSTR;}
 
 {IDENTIF} {if(yyleng<=20){
     if(Exist(yytext)==1 && rechercher_clesep("START") == NULL ){

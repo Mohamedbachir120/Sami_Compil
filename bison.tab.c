@@ -148,28 +148,28 @@ extern int yydebug;
     MULT = 267,
     DIV = 268,
     EGAL = 269,
-    PROD = 270,
-    PARENOUV = 271,
-    PARENFER = 272,
-    POINT = 273,
-    VIRG = 274,
-    POINTVIRG = 275,
-    ACCOUV = 276,
-    ACCFERM = 277,
-    CODE = 278,
-    START = 279,
-    END = 280,
-    CONST = 281,
-    WHILE = 282,
-    EXECUTE = 283,
-    WHEN = 284,
-    DO = 285,
-    OTHERWISE = 286,
+    PRTOUV = 270,
+    PRTFERM = 271,
+    POINT = 272,
+    VIRG = 273,
+    POINTVIRG = 274,
+    ACOLOUV = 275,
+    ACOLFRM = 276,
+    CODE = 277,
+    START = 278,
+    END = 279,
+    CONST = 280,
+    WHILE = 281,
+    EXECUTE = 282,
+    WHEN = 283,
+    DO = 284,
+    OTHERWISE = 285,
+    PROD = 286,
     IDENTIF = 287,
-    CONSTCHAR = 288,
-    CONSTSTRING = 289,
-    CONSTINT = 290,
-    CONSTREELLE = 291,
+    CSTCHAR = 288,
+    CSTSTR = 289,
+    CSTINT = 290,
+    CSTREEL = 291,
     INTEGER = 292,
     REAL = 293,
     CHAR = 294,
@@ -511,16 +511,16 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  4
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   131
+#define YYLAST   162
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  44
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  14
+#define YYNNTS  15
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  60
+#define YYNRULES  77
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  131
+#define YYNSTATES  165
 
 #define YYUNDEFTOK  2
 #define YYMAXUTOK   298
@@ -569,15 +569,16 @@ static const yytype_int8 yytranslate[] =
 
 #if YYDEBUG
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-static const yytype_uint8 yyrline[] =
+static const yytype_int16 yyrline[] =
 {
        0,    45,    45,    48,    49,    50,    51,    53,    54,    55,
       56,    60,    62,    69,    84,    91,    92,    92,    97,    98,
-      99,   100,   101,   103,   115,   126,   137,   144,   145,   146,
-     147,   149,   150,   151,   152,   153,   159,   160,   162,   169,
-     175,   182,   183,   184,   185,   186,   187,   189,   190,   191,
-     192,   193,   194,   195,   196,   197,   198,   199,   200,   205,
-     207
+      99,   100,   101,   103,   115,   126,   138,   145,   146,   147,
+     148,   150,   151,   152,   153,   154,   160,   161,   163,   164,
+     171,   178,   185,   193,   194,   195,   196,   197,   198,   199,
+     200,   201,   207,   208,   211,   218,   224,   230,   232,   233,
+     234,   235,   236,   237,   239,   240,   241,   242,   243,   244,
+     245,   246,   247,   248,   249,   250,   255,   257
 };
 #endif
 
@@ -587,15 +588,14 @@ static const yytype_uint8 yyrline[] =
 static const char *const yytname[] =
 {
   "$end", "error", "$undefined", "EQ", "NE", "LT", "LE", "GT", "GE",
-  "AFFECT", "PLUS", "MOINS", "MULT", "DIV", "EGAL", "PROD", "PARENOUV",
-  "PARENFER", "POINT", "VIRG", "POINTVIRG", "ACCOUV", "ACCFERM", "CODE",
-  "START", "END", "CONST", "WHILE", "EXECUTE", "WHEN", "DO", "OTHERWISE",
-  "IDENTIF", "CONSTCHAR", "CONSTSTRING", "CONSTINT", "CONSTREELLE",
-  "INTEGER", "REAL", "CHAR", "STRING", "ADD", "SOUS", "MUL", "$accept",
-  "_CODESOURCE_", "_TYPESIDF_", "_VALSCONST_", "_LISTIDF_",
-  "_DECLARATIONIDF_", "_DECLARATIONSCONST_", "_DECLARATIONS_",
-  "_EXPRESSIONARITHMETIQUE_", "_AFFECTATION_", "_INSTRUCTIONS_",
-  "_CONDITIONS_", "_CONTROLE_", "_BOUCLE_", YY_NULLPTR
+  "AFFECT", "PLUS", "MOINS", "MULT", "DIV", "EGAL", "PRTOUV", "PRTFERM",
+  "POINT", "VIRG", "POINTVIRG", "ACOLOUV", "ACOLFRM", "CODE", "START",
+  "END", "CONST", "WHILE", "EXECUTE", "WHEN", "DO", "OTHERWISE", "PROD",
+  "IDENTIF", "CSTCHAR", "CSTSTR", "CSTINT", "CSTREEL", "INTEGER", "REAL",
+  "CHAR", "STRING", "ADD", "SOUS", "MUL", "$accept", "_CODESOURCE_",
+  "_IDFTYPE_", "_CSTVAL_", "_IDFLIST_", "_IDFDECLARE_", "_CSTDECLARE_",
+  "_DECLARATIONS_", "_EXPRESSIONARTH_", "_PARAMPROD_", "_AFFECTATION_",
+  "_INSTRUCTIONS_", "_CONDITIONS_", "_CONTROLE_", "_BOUCLE_", YY_NULLPTR
 };
 #endif
 
@@ -612,7 +612,7 @@ static const yytype_int16 yytoknum[] =
 };
 # endif
 
-#define YYPACT_NINF (-32)
+#define YYPACT_NINF (-40)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -624,22 +624,25 @@ static const yytype_int16 yytoknum[] =
 
   /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
      STATE-NUM.  */
-static const yytype_int8 yypact[] =
+static const yytype_int16 yypact[] =
 {
-     -22,   -28,     8,    61,   -32,   -17,   -32,   -32,   -32,   -32,
-     -15,    61,    61,    14,    40,    53,    54,   -32,   -32,   -13,
-      30,   -15,   -32,    26,    26,    64,   -13,    52,   -13,   -13,
-     -32,   -32,   -32,   -32,    58,   -32,    44,    -4,     0,    42,
-     104,    60,    56,    35,   -32,    72,   -32,   -32,   -32,    44,
-      89,    44,    44,    44,    44,    44,    44,    44,    44,    44,
-      44,    44,    44,    44,    44,    44,    44,    44,    44,    81,
-     -13,    83,    84,    85,   -32,    96,    44,    44,    44,    44,
-      44,    44,    46,   -32,   -32,   -32,   -32,   -32,   -32,   -32,
-     -32,   -32,   -32,   -32,   -32,   -32,   -32,   -32,   -32,   -32,
-     -32,   -13,    86,   -32,   -32,   -32,    97,    98,    99,   101,
-     102,   103,    44,    44,    44,    44,   100,   -13,   -32,   -32,
-     -32,   -32,   -32,   -32,   -32,   -32,   -32,   -32,   105,   -32,
-     -32
+     -15,   -14,    52,   -24,   -40,    23,   -40,   -40,   -40,   -40,
+      29,   -24,   -24,    58,    51,    48,    72,   -40,   -40,    32,
+      54,    29,   -40,    42,    42,    85,    32,    99,    32,    32,
+     -40,   -40,   -40,   -40,    90,   -40,    60,    -5,    -1,    30,
+     114,   110,   109,    36,   -40,   122,   -40,   -40,   -40,    60,
+     108,    60,    60,    60,    60,    60,    60,    60,    60,    60,
+      60,    60,    60,    60,    60,    60,    60,    60,    60,   120,
+      32,   126,   124,   125,   127,   -40,   129,    60,    60,    60,
+      60,    60,    60,    43,   -40,   -40,   -40,   -40,   -40,   -40,
+     -40,   -40,   -40,   -40,   -40,   -40,   -40,   -40,   -40,   -40,
+     -40,   -40,    32,   112,    27,   -40,   -40,   -40,   131,   132,
+     133,   134,   135,   136,    60,    60,    60,    60,   137,    32,
+     115,   119,   123,    21,   -40,   -40,   -40,   -40,   -40,   -40,
+     -40,   -40,   -40,   -40,   138,   -40,    27,    27,    27,    27,
+      27,    27,    27,    27,    27,    27,    27,    27,   140,    27,
+     -40,   142,   142,   142,   142,   142,   142,   142,   142,   142,
+     142,   142,   142,   -40,   142
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -649,32 +652,35 @@ static const yytype_int8 yydefact[] =
 {
        0,     0,     0,    17,     1,     0,     3,     4,     5,     6,
        0,    17,    17,     0,     0,    12,     0,    15,    16,     0,
-       0,     0,    13,     0,     0,     0,    46,     0,    45,    44,
+       0,     0,    13,     0,     0,     0,    63,     0,    62,    61,
        9,    10,     7,     8,     0,    11,     0,    35,    36,    37,
-       0,     0,     0,     0,    41,     0,    42,    43,    14,     0,
+       0,     0,     0,     0,    58,     0,    59,    60,    14,     0,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     2,     0,     0,     0,     0,     0,
-       0,     0,    18,    23,    24,    25,    26,    27,    28,    29,
-      30,    31,    32,    33,    34,    53,    58,    55,    54,    56,
-      57,     0,     0,    40,    39,    38,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,    47,    52,
-      49,    48,    50,    51,    19,    20,    21,    22,     0,    59,
-      60
+       0,     0,     0,     0,     0,     2,     0,     0,     0,     0,
+       0,     0,     0,    18,    23,    24,    25,    26,    27,    28,
+      29,    30,    31,    32,    33,    34,    70,    75,    72,    71,
+      73,    74,     0,     0,     0,    56,    55,    54,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+      51,    52,    53,     0,    64,    69,    66,    65,    67,    68,
+      19,    20,    21,    22,     0,    76,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+      77,    39,    40,    41,    42,    43,    44,    46,    45,    49,
+      50,    47,    48,    57,    38
 };
 
   /* YYPGOTO[NTERM-NUM].  */
-static const yytype_int8 yypgoto[] =
+static const yytype_int16 yypgoto[] =
 {
-     -32,   -32,   -32,   -32,   106,   -32,   -32,    29,   -31,   -32,
-     -26,   107,   -32,   -32
+     -40,   -40,   -40,   -40,   141,   -40,   -40,    68,   -32,   -39,
+     -40,   -26,   130,   -40,   -40
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     2,    10,    34,    16,    11,    12,    13,    40,    26,
-      27,    41,    28,    29
+      -1,     2,    10,    34,    16,    11,    12,    13,    40,   123,
+      26,    27,    41,    28,    29
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -682,58 +688,67 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_uint8 yytable[] =
 {
-      44,     1,    46,    47,     3,    50,    51,    52,     4,    53,
-      55,    56,    73,    57,    23,    14,    24,    15,    75,    25,
-      83,    84,    85,    86,    87,    88,    89,    90,    91,    92,
-      93,    94,    95,    96,    97,    98,    99,   100,    19,    54,
-      17,    18,    36,    58,   102,   106,   107,   108,   109,   110,
-     111,    49,    59,    60,    20,    61,   112,   113,    37,   114,
-      49,    38,    39,    30,    31,    32,    33,    37,    71,    72,
-      38,    39,    21,    43,    22,   116,    37,    45,    48,    38,
-      39,   124,   125,   126,   127,    62,    70,     5,    69,   115,
-      74,   129,    76,    77,    78,    79,    80,    81,     6,     7,
-       8,     9,   101,   103,   104,   105,    82,    63,    64,    65,
-      66,    67,    68,    82,   118,   119,   120,   117,   121,   122,
-     123,     0,   128,     0,     0,   130,     0,    35,     0,     0,
-       0,    42
+      44,     5,    46,    47,    50,    51,    52,     1,    53,    55,
+      56,    74,    57,     6,     7,     8,     9,    76,     3,    84,
+      85,    86,    87,    88,    89,    90,    91,    92,    93,    94,
+      95,    96,    97,    98,    99,   100,   101,   148,    54,   149,
+      59,    60,    58,    61,   103,   108,   109,   110,   111,   112,
+     113,    49,     4,   114,   115,    14,   116,    36,    23,   120,
+      24,    15,   121,   122,    25,    20,    21,    71,    37,    72,
+      73,    38,    39,    62,    37,    49,   118,    38,    39,    17,
+      18,    19,   130,   131,   132,   133,   117,    30,    31,    32,
+      33,    22,    37,   135,    43,    38,    39,   151,   152,   153,
+     154,   155,   156,   157,   158,   159,   160,   161,   162,    48,
+     164,    77,    78,    79,    80,    81,    82,    63,    64,    65,
+      66,    67,    68,    45,    83,   136,   137,   138,   139,   140,
+     141,   142,   143,   144,   145,   146,   147,    69,    70,    75,
+     102,   104,   119,   105,   106,    83,   107,   124,   125,   126,
+     127,   128,   129,     0,    42,     0,     0,   150,   134,   163,
+     149,     0,    35
 };
 
-static const yytype_int8 yycheck[] =
+static const yytype_int16 yycheck[] =
 {
-      26,    23,    28,    29,    32,    36,    10,    11,     0,    13,
-      10,    11,    43,    13,    27,    32,    29,    32,    49,    32,
-      51,    52,    53,    54,    55,    56,    57,    58,    59,    60,
-      61,    62,    63,    64,    65,    66,    67,    68,    24,    43,
-      11,    12,    16,    43,    70,    76,    77,    78,    79,    80,
-      81,    16,    10,    11,    14,    13,    10,    11,    32,    13,
-      16,    35,    36,    33,    34,    35,    36,    32,    33,    34,
-      35,    36,    19,     9,    20,   101,    32,    25,    20,    35,
-      36,   112,   113,   114,   115,    43,    30,    26,    28,    43,
-      18,   117,     3,     4,     5,     6,     7,     8,    37,    38,
-      39,    40,    21,    20,    20,    20,    17,     3,     4,     5,
-       6,     7,     8,    17,    17,    17,    17,    31,    17,    17,
-      17,    -1,    22,    -1,    -1,    20,    -1,    21,    -1,    -1,
-      -1,    24
+      26,    25,    28,    29,    36,    10,    11,    22,    13,    10,
+      11,    43,    13,    37,    38,    39,    40,    49,    32,    51,
+      52,    53,    54,    55,    56,    57,    58,    59,    60,    61,
+      62,    63,    64,    65,    66,    67,    68,    16,    43,    18,
+      10,    11,    43,    13,    70,    77,    78,    79,    80,    81,
+      82,    15,     0,    10,    11,    32,    13,    15,    26,    32,
+      28,    32,    35,    36,    32,    14,    18,    31,    32,    33,
+      34,    35,    36,    43,    32,    15,   102,    35,    36,    11,
+      12,    23,   114,   115,   116,   117,    43,    33,    34,    35,
+      36,    19,    32,   119,     9,    35,    36,   136,   137,   138,
+     139,   140,   141,   142,   143,   144,   145,   146,   147,    19,
+     149,     3,     4,     5,     6,     7,     8,     3,     4,     5,
+       6,     7,     8,    24,    16,    10,    11,    12,    13,    10,
+      11,    12,    13,    10,    11,    12,    13,    27,    29,    17,
+      20,    15,    30,    19,    19,    16,    19,    16,    16,    16,
+      16,    16,    16,    -1,    24,    -1,    -1,    19,    21,    19,
+      18,    -1,    21
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,    23,    45,    32,     0,    26,    37,    38,    39,    40,
-      46,    49,    50,    51,    32,    32,    48,    51,    51,    24,
-      14,    19,    20,    27,    29,    32,    53,    54,    56,    57,
-      33,    34,    35,    36,    47,    48,    16,    32,    35,    36,
-      52,    55,    55,     9,    54,    25,    54,    54,    20,    16,
+       0,    22,    45,    32,     0,    25,    37,    38,    39,    40,
+      46,    49,    50,    51,    32,    32,    48,    51,    51,    23,
+      14,    18,    19,    26,    28,    32,    54,    55,    57,    58,
+      33,    34,    35,    36,    47,    48,    15,    32,    35,    36,
+      52,    56,    56,     9,    55,    24,    55,    55,    19,    15,
       52,    10,    11,    13,    43,    10,    11,    13,    43,    10,
-      11,    13,    43,     3,     4,     5,     6,     7,     8,    28,
-      30,    33,    34,    52,    18,    52,     3,     4,     5,     6,
-       7,     8,    17,    52,    52,    52,    52,    52,    52,    52,
+      11,    13,    43,     3,     4,     5,     6,     7,     8,    27,
+      29,    31,    33,    34,    52,    17,    52,     3,     4,     5,
+       6,     7,     8,    16,    52,    52,    52,    52,    52,    52,
       52,    52,    52,    52,    52,    52,    52,    52,    52,    52,
-      52,    21,    54,    20,    20,    20,    52,    52,    52,    52,
-      52,    52,    10,    11,    13,    43,    54,    31,    17,    17,
-      17,    17,    17,    17,    52,    52,    52,    52,    22,    54,
-      20
+      52,    52,    20,    55,    15,    19,    19,    19,    52,    52,
+      52,    52,    52,    52,    10,    11,    13,    43,    55,    30,
+      32,    35,    36,    53,    16,    16,    16,    16,    16,    16,
+      52,    52,    52,    52,    21,    55,    10,    11,    12,    13,
+      10,    11,    12,    13,    10,    11,    12,    13,    16,    18,
+      19,    53,    53,    53,    53,    53,    53,    53,    53,    53,
+      53,    53,    53,    19,    53
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
@@ -743,9 +758,10 @@ static const yytype_int8 yyr1[] =
       47,    48,    48,    49,    50,    51,    51,    51,    52,    52,
       52,    52,    52,    52,    52,    52,    52,    52,    52,    52,
       52,    52,    52,    52,    52,    52,    52,    52,    53,    53,
-      53,    54,    54,    54,    54,    54,    54,    55,    55,    55,
-      55,    55,    55,    55,    55,    55,    55,    55,    55,    56,
-      57
+      53,    53,    53,    53,    53,    53,    53,    53,    53,    53,
+      53,    53,    53,    53,    54,    54,    54,    54,    55,    55,
+      55,    55,    55,    55,    56,    56,    56,    56,    56,    56,
+      56,    56,    56,    56,    56,    56,    57,    58
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
@@ -754,10 +770,11 @@ static const yytype_int8 yyr2[] =
        0,     2,     7,     1,     1,     1,     1,     1,     1,     1,
        1,     3,     1,     3,     5,     2,     2,     0,     3,     5,
        5,     5,     5,     3,     3,     3,     3,     3,     3,     3,
-       3,     3,     3,     3,     3,     1,     1,     1,     4,     4,
-       4,     2,     2,     2,     1,     1,     1,     5,     5,     5,
-       5,     5,     5,     3,     3,     3,     3,     3,     3,     6,
-       7
+       3,     3,     3,     3,     3,     1,     1,     1,     3,     3,
+       3,     3,     3,     3,     3,     3,     3,     3,     3,     3,
+       3,     1,     1,     1,     4,     4,     4,     7,     2,     2,
+       2,     1,     1,     1,     5,     5,     5,     5,     5,     5,
+       3,     3,     3,     3,     3,     3,     6,     7
 };
 
 
@@ -1454,57 +1471,57 @@ yyreduce:
     {
   case 3:
 #line 48 "bison.y"
-                    {strcpy((yyval.t_IdfConst),"INTEGER");}
-#line 1459 "bison.tab.c"
+                   {strcpy((yyval.t_IdfConst),"INTEGER");}
+#line 1476 "bison.tab.c"
     break;
 
   case 4:
 #line 49 "bison.y"
                   {strcpy((yyval.t_IdfConst),"REAL");}
-#line 1465 "bison.tab.c"
+#line 1482 "bison.tab.c"
     break;
 
   case 5:
 #line 50 "bison.y"
                    {strcpy((yyval.t_IdfConst),"CHAR");}
-#line 1471 "bison.tab.c"
+#line 1488 "bison.tab.c"
     break;
 
   case 6:
 #line 51 "bison.y"
                    {strcpy((yyval.t_IdfConst),"STRING");}
-#line 1477 "bison.tab.c"
+#line 1494 "bison.tab.c"
     break;
 
   case 7:
 #line 53 "bison.y"
-                            { strcpy((yyval.t_IdfConst),(yyvsp[0].t_IdfConst));}
-#line 1483 "bison.tab.c"
+                       { strcpy((yyval.t_IdfConst),(yyvsp[0].t_IdfConst));}
+#line 1500 "bison.tab.c"
     break;
 
   case 8:
 #line 54 "bison.y"
-                            { strcpy((yyval.t_IdfConst),(yyvsp[0].t_IdfConst));}
-#line 1489 "bison.tab.c"
+                        { strcpy((yyval.t_IdfConst),(yyvsp[0].t_IdfConst));}
+#line 1506 "bison.tab.c"
     break;
 
   case 9:
 #line 55 "bison.y"
-                            { strcpy((yyval.t_IdfConst),(yyvsp[0].t_IdfConst));}
-#line 1495 "bison.tab.c"
+                          { strcpy((yyval.t_IdfConst),(yyvsp[0].t_IdfConst));}
+#line 1512 "bison.tab.c"
     break;
 
   case 10:
 #line 56 "bison.y"
-                            { strcpy((yyval.t_IdfConst),(yyvsp[0].t_IdfConst));}
-#line 1501 "bison.tab.c"
+                       { strcpy((yyval.t_IdfConst),(yyvsp[0].t_IdfConst));}
+#line 1518 "bison.tab.c"
     break;
 
   case 11:
 #line 60 "bison.y"
                                    { 
                             remplirTab((yyvsp[-2].t_IdfConst));}
-#line 1508 "bison.tab.c"
+#line 1525 "bison.tab.c"
     break;
 
   case 12:
@@ -1514,12 +1531,12 @@ yyreduce:
                     
                                 
                                     }
-#line 1518 "bison.tab.c"
+#line 1535 "bison.tab.c"
     break;
 
   case 13:
 #line 69 "bison.y"
-                                                   {    
+                                              {    
         Declar d;
         while(tableVide()==0){
 
@@ -1532,23 +1549,29 @@ yyreduce:
         }
 
 }
-#line 1536 "bison.tab.c"
+#line 1553 "bison.tab.c"
     break;
 
   case 14:
 #line 84 "bison.y"
-                                                                  {
+                                                        {
 
             PListIdfConst* ele = rechercher_idfconst((yyvsp[-3].t_IdfConst));
             PListIdfConst* ele2 = rechercher_idfconst((yyvsp[-1].t_IdfConst));
             strcpy(ele->info.subtype,ele2->info.subtype);
 }
-#line 1547 "bison.tab.c"
+#line 1564 "bison.tab.c"
+    break;
+
+  case 21:
+#line 100 "bison.y"
+                                                                                {if(strcmp((yyvsp[0].t_IdfConst),"0")==0 || strcmp((yyvsp[0].t_IdfConst),"0.0")==0){yyerror("division par zero");}}
+#line 1570 "bison.tab.c"
     break;
 
   case 23:
 #line 103 "bison.y"
-                                                                {  
+                                                        {  
                                             
                                             PListIdfConst* p =  rechercher_idfconst((yyvsp[-2].t_IdfConst));
                                             if(strcmp(p->info.subtype,"")==0){
@@ -1560,12 +1583,12 @@ yyreduce:
                                             
                                                 }
                                                 ;}
-#line 1564 "bison.tab.c"
+#line 1587 "bison.tab.c"
     break;
 
   case 24:
 #line 115 "bison.y"
-                                                                  {  
+                                                          {  
                                             PListIdfConst* p =  rechercher_idfconst((yyvsp[-2].t_IdfConst));
                                             if(strcmp(p->info.subtype,"")==0){
                                                 yyerror("variable non déclaré");
@@ -1576,12 +1599,12 @@ yyreduce:
                                             
                                                 }
                                                 ;}
-#line 1580 "bison.tab.c"
+#line 1603 "bison.tab.c"
     break;
 
   case 25:
 #line 126 "bison.y"
-                                                                 {  
+                                                         {  
                                             PListIdfConst* p =  rechercher_idfconst((yyvsp[-2].t_IdfConst));
                                             if(strcmp(p->info.subtype,"")==0){
                                                 yyerror("variable non déclaré");
@@ -1591,68 +1614,165 @@ yyreduce:
 
                                             
                                                 }
+                                                if(strcmp((yyvsp[0].t_IdfConst),"0")==0 || strcmp((yyvsp[0].t_IdfConst),"0.0")==0){yyerror("division par zero");}
                                                 ;}
-#line 1596 "bison.tab.c"
+#line 1620 "bison.tab.c"
     break;
 
   case 26:
-#line 137 "bison.y"
-                                                                {  
+#line 138 "bison.y"
+                                                        {  
                                             PListIdfConst* p =  rechercher_idfconst((yyvsp[-2].t_IdfConst));
                                             if(strcmp(p->info.subtype,"")==0){
                                                 yyerror("variable non déclaré");
                                             }
                                                 ;}
-#line 1607 "bison.tab.c"
+#line 1631 "bison.tab.c"
+    break;
+
+  case 29:
+#line 147 "bison.y"
+                                                       {if(strcmp((yyvsp[0].t_IdfConst),"0")==0 || strcmp((yyvsp[0].t_IdfConst),"0.0")==0){yyerror("division par zero");}}
+#line 1637 "bison.tab.c"
+    break;
+
+  case 33:
+#line 152 "bison.y"
+                                                        {if(strcmp((yyvsp[0].t_IdfConst),"0")==0 || strcmp((yyvsp[0].t_IdfConst),"0.0")==0){yyerror("division par zero");}}
+#line 1643 "bison.tab.c"
     break;
 
   case 35:
-#line 153 "bison.y"
+#line 154 "bison.y"
                                   {  
                                             PListIdfConst* p =  rechercher_idfconst((yyvsp[0].t_IdfConst));
                                             if(strcmp(p->info.subtype,"")==0){
                                                 yyerror("variable non déclaré");
                                             }
                                                 ;}
-#line 1618 "bison.tab.c"
+#line 1654 "bison.tab.c"
     break;
 
-  case 38:
-#line 162 "bison.y"
-                                                                  {  
-                                            PListIdfConst* p =  rechercher_idfconst((yyvsp[-3].t_IdfConst));
-                                            if(strcmp(p->info.subtype,"")==0){
-                                                yyerror("variable non déclaré");
-                                            }
+  case 36:
+#line 160 "bison.y"
+                                 {strcpy((yyval.t_IdfConst),(yyvsp[0].t_IdfConst));}
+#line 1660 "bison.tab.c"
+    break;
 
-                                                ;}
-#line 1630 "bison.tab.c"
+  case 37:
+#line 161 "bison.y"
+                                  {strcpy((yyval.t_IdfConst),(yyvsp[0].t_IdfConst));}
+#line 1666 "bison.tab.c"
     break;
 
   case 39:
-#line 169 "bison.y"
-                                                    {  
-                                            PListIdfConst* p =  rechercher_idfconst((yyvsp[-3].t_IdfConst));
+#line 164 "bison.y"
+                                     {  
+                                            
+                                            PListIdfConst* p =  rechercher_idfconst((yyvsp[-2].t_IdfConst));
                                             if(strcmp(p->info.subtype,"")==0){
                                                 yyerror("variable non déclaré");
                                             }
                                                 ;}
-#line 1641 "bison.tab.c"
+#line 1678 "bison.tab.c"
     break;
 
   case 40:
-#line 175 "bison.y"
-                                                    {  
+#line 171 "bison.y"
+                                      {  
+                                            
+                                            PListIdfConst* p =  rechercher_idfconst((yyvsp[-2].t_IdfConst));
+                                            if(strcmp(p->info.subtype,"")==0){
+                                                yyerror("variable non déclaré");
+                                            }
+                                                ;}
+#line 1690 "bison.tab.c"
+    break;
+
+  case 41:
+#line 178 "bison.y"
+                                     {  
+                                            
+                                            PListIdfConst* p =  rechercher_idfconst((yyvsp[-2].t_IdfConst));
+                                            if(strcmp(p->info.subtype,"")==0){
+                                                yyerror("variable non déclaré");
+                                            }
+                                                ;}
+#line 1702 "bison.tab.c"
+    break;
+
+  case 42:
+#line 185 "bison.y"
+                                    {  
+                                            
+                                            PListIdfConst* p =  rechercher_idfconst((yyvsp[-2].t_IdfConst));
+                                            if(strcmp(p->info.subtype,"")==0){
+                                                yyerror("variable non déclaré");
+                                            }
+                                            if(strcmp((yyvsp[0].t_IdfConst),"0")==0 || strcmp((yyvsp[0].t_IdfConst),"0.0")==0){yyerror("division par zero");}
+                                                ;}
+#line 1715 "bison.tab.c"
+    break;
+
+  case 45:
+#line 195 "bison.y"
+                                    {if(strcmp((yyvsp[0].t_IdfConst),"0")==0 || strcmp((yyvsp[0].t_IdfConst),"0.0")==0){yyerror("division par zero");}}
+#line 1721 "bison.tab.c"
+    break;
+
+  case 48:
+#line 198 "bison.y"
+                                    {if(strcmp((yyvsp[0].t_IdfConst),"0")==0 || strcmp((yyvsp[0].t_IdfConst),"0.0")==0){yyerror("division par zero");}}
+#line 1727 "bison.tab.c"
+    break;
+
+  case 51:
+#line 201 "bison.y"
+                    {  
+                                            
+                                            PListIdfConst* p =  rechercher_idfconst((yyvsp[0].t_IdfConst));
+                                            if(strcmp(p->info.subtype,"")==0){
+                                                yyerror("variable non déclaré");
+                                            };}
+#line 1738 "bison.tab.c"
+    break;
+
+  case 54:
+#line 211 "bison.y"
+                                                          {  
+                                            PListIdfConst* p =  rechercher_idfconst((yyvsp[-3].t_IdfConst));
+                                            if(strcmp(p->info.subtype,"")==0){
+                                                yyerror("variable non déclaré");
+                                            }
+
+                                                ;}
+#line 1750 "bison.tab.c"
+    break;
+
+  case 55:
+#line 218 "bison.y"
+                                               {  
                                             PListIdfConst* p =  rechercher_idfconst((yyvsp[-3].t_IdfConst));
                                             if(strcmp(p->info.subtype,"")==0){
                                                 yyerror("variable non déclaré");
                                             }
                                                 ;}
-#line 1652 "bison.tab.c"
+#line 1761 "bison.tab.c"
+    break;
+
+  case 56:
+#line 224 "bison.y"
+                                                  {  
+                                            PListIdfConst* p =  rechercher_idfconst((yyvsp[-3].t_IdfConst));
+                                            if(strcmp(p->info.subtype,"")==0){
+                                                yyerror("variable non déclaré");
+                                            }
+                                                ;}
+#line 1772 "bison.tab.c"
     break;
 
 
-#line 1656 "bison.tab.c"
+#line 1776 "bison.tab.c"
 
       default: break;
     }
@@ -1884,7 +2004,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 212 "bison.y"
+#line 262 "bison.y"
 
 
 void yyerror(const char* message) {
